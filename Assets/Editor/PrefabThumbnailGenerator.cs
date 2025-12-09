@@ -21,8 +21,8 @@ public class PrefabThumbnailGenerator : EditorWindow
     private Color backgroundColor = Color.magenta; // 투명화할 배경색
 
     // 크기 제한 설정
-    private float maxSize = 2f;        // 최대 크기 제한
-    private float minSize = 1f;        // 최소 크기 (1x1)
+    //private float maxSize = 2f;        // 최대 크기 제한
+    //private float minSize = 1f;        // 최소 크기 (1x1)
     private bool autoScale = true;     // 자동 스케일 조정
 
     // 카메라 설정
@@ -40,7 +40,8 @@ public class PrefabThumbnailGenerator : EditorWindow
     public static void ShowWindow()
     {
         var window = GetWindow<PrefabThumbnailGenerator>("Thumbnail Generator");
-        window.minSize = new Vector2(400, 600);
+        window.minSize = new Vector2(400f, 600f);
+        window.maxSize = new Vector2(600f, 800f);
     }
 
     #endregion
@@ -85,13 +86,13 @@ public class PrefabThumbnailGenerator : EditorWindow
         EditorGUILayout.Space();
         GUILayout.Label("크기 조정 설정", EditorStyles.boldLabel);
 
-        autoScale = EditorGUILayout.Toggle("자동 크기 조정", autoScale);
+        //autoScale = EditorGUILayout.Toggle("자동 크기 조정", autoScale);
 
-        if (autoScale)
-        {
-            maxSize = EditorGUILayout.Slider("최대 크기 (유니티 단위)", maxSize, 0.5f, 10f);
-            minSize = EditorGUILayout.Slider("최소 크기 (유니티 단위)", minSize, 0.1f, 5f);
-        }
+        //if (autoScale)
+        //{
+        //    maxSize.x = EditorGUILayout.Slider("최대 크기 (유니티 단위)", maxSize.x, 0.5f, 10f);
+        //    minSize.x = EditorGUILayout.Slider("최소 크기 (유니티 단위)", minSize.x, 0.1f, 5f);
+        //}
 
         EditorGUILayout.Space();
         GUILayout.Label("카메라 설정", EditorStyles.boldLabel);
@@ -308,15 +309,15 @@ public class PrefabThumbnailGenerator : EditorWindow
         float scaleFactor = 1f;
 
         // 최대 크기 제한 (2를 넘지 않도록)
-        if (maxDimension > maxSize)
+        if (maxDimension > maxSize.x)
         {
-            scaleFactor = maxSize / maxDimension;
+            scaleFactor = maxSize.x / maxDimension;
             Debug.Log($"오브젝트 '{obj.name}' 크기 축소: {maxDimension:F2} -> {maxSize:F2} (scale: {scaleFactor:F2})");
         }
         // 최소 크기 제한 (너무 작으면 1x1로)
-        else if (maxDimension < minSize)
+        else if (maxDimension < minSize.x)
         {
-            scaleFactor = minSize / maxDimension;
+            scaleFactor = minSize.x / maxDimension;
             Debug.Log($"오브젝트 '{obj.name}' 크기 확대: {maxDimension:F2} -> {minSize:F2} (scale: {scaleFactor:F2})");
         }
 
